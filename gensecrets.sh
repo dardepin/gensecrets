@@ -36,6 +36,8 @@ while [ -z "$ADMINPASS" ]; do
     read -sp 'Provide admin password: ' ADMINPASS
 done
 
+printf "\n"
+
 while [ -z "$DOCTOR" ]; do
     read -p 'Enter user login: ' DOCTOR
 done
@@ -46,9 +48,13 @@ while [ -z "$USERPASS" ]; do
     read -sp 'Provide user password: ' USERPASS
 done
 
+printf "\n"
+
 while [ -z "$DOMAINPASS" ]; do
     read -sp 'Provide domain admin password: ' DOMAINPASS
 done
+
+printf "\n"
 
 HASH1=$(mkpasswd --method=sha-512 $ADMINPASS)
 HASH2=$(mkpasswd --method=sha-512 $USERPASS)

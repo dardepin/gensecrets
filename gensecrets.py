@@ -22,7 +22,7 @@ def rewrite():
 def save2vault(hostname, adminname, admincomment, adminhash, username, usercomment, userhash, domainpass, domain, domainadmin):
     print('Creating vault file');
     with open(sys.argv[1], 'w+') as vaultfile:
-        vaultfile.write("user1: '{0}'\nusername1: '{1}'\npassword1: '{2}'\nuser2: '{3}'\nusername2: '{4}'\npassword2: '{5}'\ndomain_admin: '{6}'\ndomain_password: '{7}'\ndomain: '.{8}'\nhostname: '{9}'\n".format(adminname, admincomment, adminhash, username, usercomment, userhash, domainadmin, domainpass, domain, hostname));
+        vaultfile.write("user1: '{0}'\nusername1: '{1}'\npassword1: '{2}'\nuser2: '{3}'\nusername2: '{4}'\npassword2: '{5}'\ndomain_admin: '{6}'\ndomain_password: '{7}'\ndomain: '{8}'\nhostname: '{9}'\n".format(adminname, admincomment, adminhash, username, usercomment, userhash, domainadmin, domainpass, domain, hostname));
     return;
 
 def crypt2vault():

@@ -19,10 +19,10 @@ def rewrite():
         else: exit();
     return;
 
-def save2vault(hostname, adminname, admincomment, adminhash, username, usercomment, userhash, domainpass):
+def save2vault(hostname, adminname, admincomment, adminhash, username, usercomment, userhash, domainpass, domain, domainadmin):
     print('Creating vault file');
     with open(sys.argv[1], 'w+') as vaultfile:
-        vaultfile.write("user1: '{0}'\nusername1: '{1}'\npassword1: '{2}'\nuser2: '{3}'\nusername2: '{4}'\npassword2: '{5}'\ndomain_password: '{6}'\ndomain: '.med.cap.ru'\nhostname: '{7}'\n".format(adminname, admincomment, adminhash, username, usercomment, userhash, domainpass, hostname));
+        vaultfile.write("user1: '{0}'\nusername1: '{1}'\npassword1: '{2}'\nuser2: '{3}'\nusername2: '{4}'\npassword2: '{5}'\ndomain_admin: '{6}'\ndomain_password: '{7}'\ndomain: '.{8}'\nhostname: '{9}'\n".format(adminname, admincomment, adminhash, username, usercomment, userhash, domainadmin, domainpass, domain, hostname));
     return;
 
 def crypt2vault():
@@ -31,6 +31,8 @@ def crypt2vault():
 
 #main()
 if len(sys.argv) < 2:
+    usage(True);
+if not sys.argv[1].endswith('.yml'):
     usage(True);
 rewrite();
 
@@ -45,6 +47,8 @@ try:
     userpass = getpass.getpass('User password: ');
     usercomm = input('User comment: ');
 
+    domain = input('Domain (without first dot): ')
+    domainadmin = input('Domain admin: ');
     domainpass = getpass.getpass('Domain password: ');
 except Exception as error:
     print('ERROR', error);
@@ -53,6 +57,6 @@ else:
     adminhash = subprocess.check_output("mkpasswd --method=sha-512 " + adminpass, shell=True);
     userhash = subprocess.check_output("mkpasswd --method=sha-512 " + userpass, shell=True);
 
-    save2vault(hostname, adminname, admincomm, adminhash.decode("utf-8").strip(), username, usercomm, userhash.decode("utf-8").strip(), domainpass);
+    save2vault(hostname, adminname, admincomm, adminhash.decode("utf-8").strip(), username, usercomm, userhash.decode("utf-8").strip(), domainpass, domain, domainadmin);
     crypt2vault();
     print('Complete');

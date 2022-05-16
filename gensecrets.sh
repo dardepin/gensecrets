@@ -6,7 +6,13 @@ echo 'Ansible vault file geneartion tool'
 
 if [ "$*" == "" ]
 then
-    echo "Usage: $0 vault_file"
+    echo "Usage: $0 vault_file.yml"
+    exit 1
+fi
+
+if [[ $1 != *yml ]] # yml files only
+then
+    echo "Usage: $0 vault_file.yml"
     exit 1
 fi
 
@@ -50,6 +56,14 @@ done
 
 printf "\n"
 
+while [ -z "$DOMAIN" ]; do
+    read -p 'Provide domain (without first dot): ' DOMAIN
+done
+
+while [ -z "$DOMAINADMIN" ]; do
+    read -p 'Provide domain admin login: ' DOMAINADMIN
+done
+
 while [ -z "$DOMAINPASS" ]; do
     read -sp 'Provide domain admin password: ' DOMAINPASS
 done
@@ -68,8 +82,9 @@ user2: '$DOCTOR'
 username2: '$COMMENT2'
 password2: '$HASH2'
 hostname: '$HOST'
+domain_admin: '$DOMAINADMIN'
 domain_password: '$DOMAINPASS'
-domain: '.med.cap.ru'\n" > $1
+domain: '$DOMAIN'\n" > $1
 
 ansible-vault encrypt $1
 echo "Complete."

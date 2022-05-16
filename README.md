@@ -1,5 +1,5 @@
 ## Introduction
-Tool for generating secret file with credentials for Astra linux setup via Ansible
+For GIT (Github) testing only! Tool for generating secret file with credentials for Astra linux setup via Ansible
 ## Current Releases
 0.1 - bash script variant added
 0.2 - python script added

@@ -1,8 +1,8 @@
 ## Introduction
 For GIT (Github) testing only! Tool for generating secret file with credentials for Astra linux setup via Ansible.
 ## Current Releases
-0.1 - bash script variant added.
-0.2 - python script added.
+0.1 - bash script variant added. <br />
+0.2 - python script added. <br />
 ## Platforms
 Any Linux. For python gensecrets.py Python3 required.
 ### Usage

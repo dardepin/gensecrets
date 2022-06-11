@@ -38,18 +38,31 @@ rewrite();
 
 try:
     #adminname = sys.stdin.readline().rstrip()
-    hostname = input('Hostname: ');
-    adminname = input('Admin login: ');
-    adminpass = getpass.getpass('Admin password: ');
-    admincomm = input('Admin comment: ');
+    hostname = ""; adminname = ""; adminpass = ""; admincomm = "";
+    username = ""; userpass = ""; usercomm = "";
+    domain = ""; domainadmin = ""; domainpass = "";
 
-    username = input('User login: ');
-    userpass = getpass.getpass('User password: ');
-    usercomm = input('User comment: ');
+    while len(hostname) == 0:
+        hostname = input('Hostname: ');
+    while len(adminname) == 0:
+        adminname = input('Admin login: ');
+    while len(adminpass) == 0:
+        adminpass = getpass.getpass('Admin password: ');
+    while len(admincomm) == 0:
+        admincomm = input('Admin comment: ');
+    while len(username) == 0:
+        username = input('User login: ');
+    while len(userpass) == 0:
+        userpass = getpass.getpass('User password: ');
+    while len(usercomm) == 0:
+        usercomm = input('User comment: ');
 
-    domain = input('Domain (without first dot): ')
-    domainadmin = input('Domain admin: ');
-    domainpass = getpass.getpass('Domain password: ');
+    while len(domain) == 0:
+        domain = input('Domain (without first dot): ')
+    while len(domainadmin) == 0:
+        domainadmin = input('Domain admin: ');
+    while len(domainpass) == 0:
+        domainpass = getpass.getpass('Domain password: ');
 except Exception as error:
     print('ERROR', error);
     exit();

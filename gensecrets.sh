@@ -60,6 +60,14 @@ while [ -z "$DOMAIN" ]; do
     read -p 'Provide domain (without first dot): ' DOMAIN
 done
 
+while [ -z "$DOMAINIP" ]; do
+    read -p 'Provide domain controller address: ' DOMAINIP
+done
+
+while [ -z "$DOMAINOU" ]; do
+    read -p 'Provide OU (without first dot): ' DOMAINOU
+done
+
 while [ -z "$DOMAINADMIN" ]; do
     read -p 'Provide domain admin login: ' DOMAINADMIN
 done
@@ -84,6 +92,8 @@ password2: '$HASH2'
 hostname: '$HOST'
 domain_admin: '$DOMAINADMIN'
 domain_password: '$DOMAINPASS'
+domain_ou: '$DOMAINOU'
+domain_controller: '$DOMAINIP'
 domain: '$DOMAIN'\n" > $1
 
 ansible-vault encrypt $1

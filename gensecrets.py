@@ -3,6 +3,7 @@ import os;
 import sys;
 import getpass;
 import subprocess;
+
 print('Ansible vault file gen tool');
 
 def usage(toexit):
@@ -19,14 +20,18 @@ def rewrite():
         else: exit();
     return;
 
-def save2vault(hostname, adminname, admincomment, adminhash, username, usercomment, userhash, domainpass, domain, domainadmin):
+def save2vault(hostname, adminname, admincomment, adminhash, username, usercomment, userhash, domainpass, domain, domainadmin, domainou, domaincontroller):
     print('Creating vault file');
     with open(sys.argv[1], 'w+') as vaultfile:
-        vaultfile.write("user1: '{0}'\nusername1: '{1}'\npassword1: '{2}'\nuser2: '{3}'\nusername2: '{4}'\npassword2: '{5}'\ndomain_admin: '{6}'\ndomain_password: '{7}'\ndomain: '{8}'\nhostname: '{9}'\n".format(adminname, admincomment, adminhash, username, usercomment, userhash, domainadmin, domainpass, domain, hostname));
+        vaultfile.write("user1: '{0}'\nusername1: '{1}'\npassword1: '{2}'\nuser2: '{3}'\nusername2: '{4}'\npassword2: '{5}'\ndomain_admin: '{6}'\ndomain_password: '{7}'\ndomain: '{8}'\ndomain_ou: '{9}'\ndomain_controller: '{10}'\nhostname: '{11}'\n".format(adminname, admincomment, adminhash, username, usercomment, userhash, domainadmin, domainpass, domain, domainou, domaincontroller, hostname));
     return;
 
 def crypt2vault():
-    subprocess.check_output("ansible-vault encrypt " + sys.argv[1], shell=True);
+    try:
+        subprocess.check_output("ansible-vault encrypt " + sys.argv[1], shell=True);
+    except Exception as error:
+        print('ERROR: ', error);
+        exit();
     return;
 
 #main()
@@ -41,6 +46,7 @@ try:
     hostname = ""; adminname = ""; adminpass = ""; admincomm = "";
     username = ""; userpass = ""; usercomm = "";
     domain = ""; domainadmin = ""; domainpass = "";
+    domainou= ""; domaincontroller = "";
 
     while len(hostname) == 0:
         hostname = input('Hostname: ');
@@ -59,17 +65,21 @@ try:
 
     while len(domain) == 0:
         domain = input('Domain (without first dot): ')
+    while len(domaincontroller) == 0:
+        domaincontroller = input('Domain controller address: ');
+    while len(domainou) == 0:
+        domainou = input('Domain ou: ');
     while len(domainadmin) == 0:
         domainadmin = input('Domain admin: ');
     while len(domainpass) == 0:
         domainpass = getpass.getpass('Domain password: ');
 except Exception as error:
-    print('ERROR', error);
+    print('ERROR: ', error);
     exit();
 else:
     adminhash = subprocess.check_output("mkpasswd --method=sha-512 " + adminpass, shell=True);
     userhash = subprocess.check_output("mkpasswd --method=sha-512 " + userpass, shell=True);
 
-    save2vault(hostname, adminname, admincomm, adminhash.decode("utf-8").strip(), username, usercomm, userhash.decode("utf-8").strip(), domainpass, domain, domainadmin);
+    save2vault(hostname, adminname, admincomm, adminhash.decode("utf-8").strip(), username, usercomm, userhash.decode("utf-8").strip(), domainpass, domain, domainadmin, domainou, domaincontroller);
     crypt2vault();
-    print('Complete');
+    print('COMPLETE!');
